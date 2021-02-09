@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+{% if user.is_authenticated %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous">
+	var x=false;
+</script>
+
+	
+	{% csrf_token %}
+	
+<body style="background-image: url({% static 'images/13.png' %});background-repeat: no-repeat;background-position: center;background-size: cover;"></body>
+
+<style>
+
+a:hover {
+  color: red
+}
+
+
+
+
+
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  margin-left: 20%;
+}
+
+td, th {
+  color: rgb(255,222,173);
+  border: 0px solid #dddddd;
+  text-align: left;
+  padding: 10px;
+  padding-left: 30px;
+}
+</style>
+
+
+
+
+
+
+
+<br>
+<p style="font-size: 70px;text-align: center;font-style: italic;font-family: serif;font-style:Times New Roman;color:rgb(255,228,225)">Problem Set(Easy):-</p>
+<br>
+
+
+<table>
+	{% for easy in easys %}
+	<tr>
+		<td><a href="{{easy.link}}" style="font-size:20px;color: rgb(240,248,255)" target="_blank">{{easy.title}}</a></td>
+		<td id="{{easy.problem}}" style="font-size: 20px;">&#10060 Unsolved</td>
+	</tr>
+	{% endfor %}
+
+</table>
+
+
+
+
+
+<script >
+	var x="https://codeforces.com/api/user.status?handle={{user.username}}&from=1&count=500";
+	var q,w="OK",a,l;
+	$.getJSON(x, function(data)
+	{
+			console.log(data);
+			var check=data.result;
+			var q,a,w="OK",i;
+
+			for(q=0;q<check.length;q++)
+			{
+				a=data.result[q].problem.index;
+				a=a+""+data.result[q].problem.contestId;
+				if(data.result[q].verdict == w)
+				{
+					document.getElementById(a).innerHTML = "&#10004;&#65039; Solved";
+				}
+			}
+	});
+</script>
+<br>
+		<p style="text-align: center;color: white">And Much More....</p>
+<hr>
+
+{% else %}
+Login first;
+{% endif %}
+
+
+{% endblock %}

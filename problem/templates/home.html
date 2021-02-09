@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+{% if user.is_authenticated %}
+<br>
+<a href="mailto:ruhiziki@gmail.com" id="emailHelp" class="form-text" style="float: right;color: white">Contact us:- ruhiziki@gmail.com</a>
+<br>
+<h1 style="margin-left: 30%;font-size: 100px;font-style: italic;font-family: serif;font-style:Times New Roman;color: white"> DS and Algo Ladder</h1>
+<style type="text/css">
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous">
+	var x=false;
+</script>
+
+
+	
+	{% csrf_token %}
+	
+<body style="background-image: url({% static 'images/11.png' %});background-repeat: no-repeat;background-position: center;background-size: cover;background-blend-mode: darken"></body>
+	<br>
+<br>
+<br>
+<p style="font-size: 40px;margin-left: 30px;font-style: italic;text-align:center;font-family: serif;font-style:Times New Roman;color: white">Solve this problem :-</p>
+<br>
+<ul>
+<li><p style="font-size: 60px;text-align: center;font-style: italic;font-family: serif;font-style:Times New Roman;color:white" id="demo"></p></li>
+</ul>
+<br>
+<button onclick="myFunction()" class="btn btn-secondary" style="background-color: blue;margin-left: 40%;">Lets Solve it</button></li>
+<hr>
+
+	
+
+
+<script>
+	var x="https://codeforces.com/api/user.status?handle={{user.username}}&from=1&count=500";
+		var q,w="OK",a,l;
+		$.getJSON(x, function(data)
+		{
+				console.log(data);
+				var check=data.result;
+				// document.write(check.le)
+				var q,a,w="OK",i;
+				var p=false,d;
+				{% for easy in easys %}
+				d=true;
+				if(p==false)
+				{
+				for(q=0;q<check.length;q++)
+				{
+					a=data.result[q].problem.index;
+					a=a+""+data.result[q].problem.contestId;
+					if(a == "{{easy.problem}}")
+					{
+							if(data.result[q].verdict != w)
+							{	
+								if(d==true)
+								{
+									p=true;			
+									break;
+								}	
+							}
+							else
+							{
+								d=false;
+							}
+					}
+				}
+					if(q==check.length)
+				 	{
+				 		if(d==true)
+				 		p=true;
+				 	}
+				 	if(p==true)
+				 	{
+				 		document.getElementById("demo").innerHTML = "Problem Name:- {{easy.title}}"
+				 		l="{{easy.link}}";
+				 	}
+				 	}
+				 {% endfor %}
+				 
+				 if(p==false)
+				 {
+				 			{% for medium in mediums %}
+							d=true;
+							if(p==false)
+							{
+								for(q=0;q<check.length;q++)
+								{
+								a=data.result[q].problem.index;
+								a=a+""+data.result[q].problem.contestId;
+								if(a == "{{easy.problem}}")
+								{
+									if(data.result[q].verdict != w)
+									{	
+											if(d==true)
+											{
+											p=true;			
+											break;
+									}	
+								}
+								else
+								{
+									d=false;
+								}
+								}
+							}
+								if(q==check.length)
+				 				{
+				 				if(d==true)
+				 				p=true;
+				 				}
+				 				if(p==true)
+				 				{
+				 					document.getElementById("demo").innerHTML = "{{medium.title}}"
+				 					l="{{medium.link}}";
+				 				}
+				 				}
+				 		{% endfor %}
+				 }
+
+				 if(p==false)
+				 {
+				 			{% for hard in hards %}
+							d=true;
+							if(p==false)
+							{
+								for(q=0;q<check.length;q++)
+								{
+								a=data.result[q].problem.index;
+								a=a+""+data.result[q].problem.contestId;
+								if(a == "{{easy.problem}}")
+								{
+									if(data.result[q].verdict != w)
+									{	
+											if(d==true)
+											{
+											p=true;			
+											break;
+									}	
+								}
+								else
+								{
+									d=false;
+								}
+								}
+							}
+								if(q==check.length)
+				 				{
+				 				if(d==true)
+				 				p=true;
+				 				}
+				 				if(p==true)
+				 				{
+				 					document.getElementById("demo").innerHTML = "{{hard.title}}"
+				 					l="{{hard.link}}";
+				 				}
+				 				}
+				 		{% endfor %}
+				 }
+				 
+		});
+
+					function myFunction() 
+				 			{
+ 							 window.open(l);
+							}
+</script>
+
+{% else %}
+Login first
+{% endif %}
+
+{% endblock %}
