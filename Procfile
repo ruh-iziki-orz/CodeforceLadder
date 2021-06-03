@@ -1,1 +1,1 @@
-web: gunicorn ladder.wsgi
+web: waitress-server --port=$PORT codeforces.wsgi:application
