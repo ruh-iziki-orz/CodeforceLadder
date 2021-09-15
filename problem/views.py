@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from .forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 
@@ -43,7 +44,7 @@ def logoutUser(request):
 	return redirect('login')
 
 
-
+@login_required(login_url='/login/')
 def HomeView(request):
 	easys = easy.objects.all();
 	mediums = medium.objects.all();
@@ -51,16 +52,19 @@ def HomeView(request):
 	context = {'easys':easys,'mediums':mediums,'hards':hards}
 	return render(request,'home.html',context)
 
+@login_required(login_url='/login/')
 def EasyView(request):
 	easys = easy.objects.all();
 	context = {'easys':easys}
 	return render(request,'easy.html',context)
 
+@login_required(login_url='/login/')
 def MediumView(request):
 	mediums = medium.objects.all();
 	context = {'mediums':mediums}
 	return render(request,'medium.html',context)
 
+@login_required(login_url='/login/')
 def HardView(request):
 	hards = hard.objects.all();
 	context = {'hards':hards}
